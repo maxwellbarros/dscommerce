@@ -9,6 +9,10 @@ public class OrderItemDTO {
     private Double price;
     private Integer quantity;
 	
+    public OrderItemDTO() {
+
+	}
+    
     public OrderItemDTO(OrderItem entity) {
 
 		productId = entity.getProduct().getId();
