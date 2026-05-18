@@ -18,7 +18,6 @@ import com.devsuperior.dscommerce.repositories.OrderRepository;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
 import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
 
-import jakarta.validation.Valid;
 
 @Service
 public class OrderService {
@@ -35,11 +34,15 @@ public class OrderService {
 	@Autowired
 	private UserService userService; 
 	
+	@Autowired
+	private AuthService authService; 
+	
 	@Transactional(readOnly = true)
 	public OrderDTO findById(Long id) {
 		
 		Order order = repository.findById(id).orElseThrow(
-				()-> new ResourceNotFoundException("Recurso não encontrado"));		
+				()-> new ResourceNotFoundException("Recurso não encontrado"));	
+		authService.validateSerfOrAdmin(order.getClient().getId());
 		return new OrderDTO (order);
 		
 	}
